@@ -5,18 +5,31 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// 🔥 storage sementara (demo)
+let sensorData = [];
+
+// health check
 app.get("/", (req, res) => {
-    res.json({ status: "API Railway hidup 🚀" });
+    res.json({ status: "API hidup 🚀" });
 });
 
+// ✅ endpoint terima sensor
 app.post("/sensor", (req, res) => {
-    const data = req.body;
-    console.log("Data sensor:", data);
+    const data = {
+        ...req.body,
+        timestamp: new Date().toISOString(),
+    };
 
-    res.json({
-        success: true,
-        message: "Data diterima",
-    });
+    sensorData.push(data);
+
+    console.log("Data masuk:", data);
+
+    res.json({ success: true });
+});
+
+// ✅ endpoint ambil data (UNTUK STREAMLIT)
+app.get("/sensor", (req, res) => {
+    res.json(sensorData);
 });
 
 const PORT = process.env.PORT || 3000;
