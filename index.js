@@ -1,0 +1,25 @@
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.json({ status: "API Railway hidup 🚀" });
+});
+
+app.post("/sensor", (req, res) => {
+    const data = req.body;
+    console.log("Data sensor:", data);
+
+    res.json({
+        success: true,
+        message: "Data diterima",
+    });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log("Server jalan di port", PORT);
+});
